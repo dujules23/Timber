@@ -35,6 +35,17 @@ int main()
   // Set the spriteBackground to cover the screen
   spriteBackground.setPosition({0, 0});
 
+  // Make a tree sprite
+
+  Texture textureTree;
+  if (!textureTree.loadFromFile("graphics/tree.png"))
+{
+    // handle the error: abort, use a fallback, etc.
+    return EXIT_FAILURE;
+}
+  Sprite spriteTree(textureTree);
+  spriteTree.setPosition({810, 0});
+
   while (window.isOpen())
   {
     /* Handle the player's input*/
