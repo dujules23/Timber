@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/Users/durrelljules/Desktop/Timber/build",
+  "command": "/usr/bin/clang++  -isystem /opt/homebrew/include -g -std=gnu++17 -arch arm64 -o CMakeFiles/timber.dir/src/timber.cpp.o -c /Users/durrelljules/Desktop/Timber/src/timber.cpp",
+  "file": "/Users/durrelljules/Desktop/Timber/src/timber.cpp",
+  "output": "CMakeFiles/timber.dir/src/timber.cpp.o"
+}
+]

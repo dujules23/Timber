@@ -1,0 +1,17 @@
+{
+  "configurations": [
+    {
+      "name": "Mac",
+      "includePath": [
+        "/opt/homebrew/opt/sfml/include",
+        "/usr/local/opt/sfml/include"
+      ],
+      "defines": [],
+      "macFrameworkPath": ["/Library/Frameworks"],
+      "compilerPath": "/usr/bin/clang++",
+      "cppStandard": "c++17",
+      "intelliSenseMode": "clang-x64"
+    }
+  ],
+  "version": 4
+}

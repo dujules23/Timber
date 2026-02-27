@@ -1,0 +1,3 @@
+/Users/durrelljules/Desktop/Timber/build/CMakeFiles/timber.dir
+/Users/durrelljules/Desktop/Timber/build/CMakeFiles/edit_cache.dir
+/Users/durrelljules/Desktop/Timber/build/CMakeFiles/rebuild_cache.dir
