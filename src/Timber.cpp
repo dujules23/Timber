@@ -7,6 +7,21 @@
 
 using namespace sf;
 
+// function declaration
+void updateBranches(int seed);
+void initBranchSprites();
+void syncBranchSprites();
+
+const int NUM_BRANCHES = 6;
+std::vector<sf::Sprite> branches;
+sf::Texture textureBranch;
+
+// Where is th player/branch?
+// Left or Right
+
+enum class side { LEFT, RIGHT, NONE };
+side branchPositions[NUM_BRANCHES];
+
  // Helper function to load a texture from a file and handle errors
 
  Texture loadTexture(const std::string& path) {
@@ -120,6 +135,10 @@ int main()
 
   scoreText.setPosition({20, 20});
 
+  initBranchSprites();
+
+  int seed = 0;
+
 
   while (window.isOpen())
   {
@@ -149,6 +168,9 @@ int main()
         timeRemaining = 6;
       }
     }
+
+    updateBranches(seed++);
+    syncBranchSprites();
 
     /* Update the scene*/
 
@@ -300,6 +322,32 @@ int main()
     ss << "Score = " << score;
     scoreText.setString(ss.str());
 
+    // update the branch sprites
+    for (int i = 0; i < NUM_BRANCHES; i++)
+    {
+
+      float height = i * 150;
+      if(branchPositions[i] == side::LEFT)
+      {
+        // Move the sprite to the left side
+        branches[i].setPosition({610, height});
+        // Flip the sprite round the other way
+        branches[i].setScale({-1, 1});
+      }
+      else if(branchPositions[i] == side::RIGHT)
+      {
+        // Move the sprite to the right side
+        branches[i].setPosition({1330, height});
+        // Set the sprite scale to normal
+        branches[i].setScale({1, 1});
+      }
+      else
+      {
+        // Hide the branch
+        branches[i].setPosition({3000, height});
+      }
+    }
+
 
     // Draw our game scene here
     window.draw(spriteBackground);
@@ -308,6 +356,12 @@ int main()
     window.draw(spriteCloud1);
     window.draw(spriteCloud2);
     window.draw(spriteCloud3);
+
+    // Draw the branches
+    for (int i = 0; i < NUM_BRANCHES; i++)
+    {
+      window.draw(branches[i]);
+    }
 
     // Draw the tree
     window.draw(spriteTree);
@@ -333,4 +387,81 @@ int main()
   
 
     return 0;
+}
+
+void syncBranchSprites()
+{
+    for (int i = 0; i < NUM_BRANCHES; i++)
+    {
+        if (i >= branches.size())
+            continue; // safety check
+
+        float height = i * 150.f;
+
+        if(branchPositions[i] == side::LEFT)
+        {
+            branches[i].setPosition({610.f, height});
+            branches[i].setScale({-1.f, 1.f});  // flip
+        }
+        else if(branchPositions[i] == side::RIGHT)
+        {
+            branches[i].setPosition({1330.f, height});
+            branches[i].setScale({1.f, 1.f});   // normal
+        }
+        else
+        {
+            branches[i].setPosition({3000.f, height}); // move off-screen
+        }
+    }
+}
+
+void initBranchSprites()
+{
+    // Load texture
+    if (!textureBranch.loadFromFile("graphics/branch.png"))
+    {
+        std::cerr << "ERROR: Could not load textureBranch\n";
+        exit(EXIT_FAILURE);
+    }
+
+    // Initialize vector of sprites
+    branches.reserve(NUM_BRANCHES);
+    for (int i = 0; i < NUM_BRANCHES; ++i)
+    {
+        branches.emplace_back(textureBranch);
+        branches[i].setTexture(textureBranch);
+        branches[i].setPosition({-2000.f, -2000.f}); // off-screen
+        branches[i].setOrigin({220.f, 20.f});
+        branches[i].setRotation(sf::degrees(0.f));
+    }
+
+    // Initialize all branch positions to NONE
+    for (int i = 0; i < NUM_BRANCHES; ++i)
+        branchPositions[i] = side::NONE;
+}
+
+void updateBranches(int seed)
+{
+  // Move all the branches down one place
+  for (int j = NUM_BRANCHES - 1; j > 0; j--)
+  {
+    branchPositions[j] = branchPositions[j - 1];
+  }
+
+  // Spawn a new branch at position 0
+  srand((int)time(0) + seed);
+  int r = (rand() % 5);
+
+  switch (r)
+  {
+    case 0:
+      branchPositions[0] = side::LEFT;
+      break;
+    case 1:
+      branchPositions[0] = side::RIGHT;
+      break;
+    default:
+      branchPositions[0] = side::NONE;
+      break;
+  }
 }
