@@ -24,26 +24,42 @@ side branchPositions[NUM_BRANCHES];
 
  // Helper function to load a texture from a file and handle errors
 
- Texture loadTexture(const std::string& path) {
-    Texture texture;
+//  Texture loadTexture(const std::string& path) {
+//     Texture texture;
+//     if (!texture.loadFromFile(path)) {
+//         std::cerr << "ERROR: Could not load texture: " << path << "\n";
+//         exit(EXIT_FAILURE);
+//     }
+//     return texture;
+//   }
+
+bool loadTexture(Texture& texture, const std::string& path)
+{
     if (!texture.loadFromFile(path)) {
         std::cerr << "ERROR: Could not load texture: " << path << "\n";
-        exit(EXIT_FAILURE);
+        return false;
     }
-    return texture;
-  }
+    return true;
+}
 
 // this is where our game starts from int main()
 
 int main()
 {
+
+  srand(static_cast<unsigned>(time(nullptr)));
   
   // create a video mode object (SFML 3 uses a Vector2u constructor)
-  VideoMode vm({1680, 1050});
+  // VideoMode vm({1680, 1050});
+  // Vector2u windowSize{1680, 1050};
 
-  // create and open a window for the game
-  // use windowed mode for now (debugging)
-  RenderWindow window(vm, "Timber!!!");
+  // // create and open a window for the game
+  // // use windowed mode for now (debugging)
+  // RenderWindow window(vm, "Timber!!!");
+  RenderWindow window(VideoMode({1680, 1050}), "Timber!!!");
+
+  auto size = window.getSize();
+  // RenderWindow window(VideoMode(size), "Timber!!!");
 
 
   // Create a texture to hold a graphic on the GPU Texture
@@ -103,7 +119,7 @@ int main()
   float timeBarHeight = 80;
   timeBar.setSize({timeBarStartWidth, timeBarHeight});
   timeBar.setFillColor(Color::Red);
-  timeBar.setPosition({(vm.size.x / 2.0f) - (timeBarStartWidth / 2.0f), 980});
+  timeBar.setPosition({(size.x / 2.0f) - (timeBarStartWidth / 2.0f), 980});
 
   Time gameTimeTotal;
   float timeRemaining = 6.0f;
@@ -131,7 +147,7 @@ int main()
   // Position the text
   sf::FloatRect textRect = messageText.getLocalBounds();
   messageText.setOrigin(sf::Vector2f(textRect.position.x + textRect.size.x/ 2.0f, textRect.position.y + textRect.size.y / 2.0f));
-  messageText.setPosition({vm.size.x / 2.0f, vm.size.y / 2.0f});
+  messageText.setPosition({size.x / 2.0f, size.y / 2.0f});
 
   scoreText.setPosition({20, 20});
 
@@ -169,8 +185,8 @@ int main()
       }
     }
 
-    updateBranches(seed++);
-    syncBranchSprites();
+    // updateBranches(seed++);
+    // syncBranchSprites();
 
     /* Update the scene*/
 
@@ -199,18 +215,18 @@ int main()
       // Recenter the text on the screen
       sf::FloatRect textRect = messageText.getLocalBounds();
       messageText.setOrigin(sf::Vector2f(textRect.position.x + textRect.size.x/ 2.0f, textRect.position.y + textRect.size.y / 2.0f));
-      messageText.setPosition({vm.size.x / 2.0f, vm.size.y / 2.0f});
+      messageText.setPosition({size.x / 2.0f, size.y / 2.0f});
     }
 
     // Setup the bee
     if(!beeActive)
     {
       // How fast is the bee?
-      srand((int)time(0));
+      // srand((int)time(0));
       beeSpeed = (rand() % 200) + 200;
 
       // How high is the bee?
-      srand((int)time(0) * 10);
+      // srand((int)time(0) * 10);
       float height = (rand() % 500) + 500;
       spriteBee.setPosition({2000, height});
       beeActive = true;
@@ -236,11 +252,11 @@ int main()
     if(!cloud1Active)
     {
       // How fast is the cloud?
-      srand((int)time(0) * 10);
+      // srand((int)time(0) * 10);
       cloud1Speed = (rand() % 200);
 
       // how high is the cloud
-      srand((int)time(0) * 10);
+      // srand((int)time(0) * 10);
       float height = (rand() % 150);
       spriteCloud1.setPosition({-200, height});
       cloud1Active = true;
@@ -263,11 +279,11 @@ int main()
     if(!cloud2Active)
     {
       // How fast is the cloud?
-      srand((int)time(0) * 20);
+      // srand((int)time(0) * 20);
       cloud2Speed = (rand() % 200);
 
       // how high is the cloud
-      srand((int)time(0) * 20);
+      // srand((int)time(0) * 20);
       float height = (rand() % 300) - 150;
       spriteCloud2.setPosition({-200, height});
       cloud2Active = true;
@@ -291,11 +307,11 @@ int main()
     if(!cloud3Active)
     {
       // How fast is the cloud?
-      srand((int)time(0) * 30);
+      // srand((int)time(0) * 30);
       cloud3Speed = (rand() % 200);
 
       // how high is the cloud
-      srand((int)time(0) * 30);
+      // srand((int)time(0) * 30);
       float height = (rand() % 450) - 150;
       spriteCloud3.setPosition({-200, height});
       cloud3Active = true;
@@ -449,7 +465,7 @@ void updateBranches(int seed)
   }
 
   // Spawn a new branch at position 0
-  srand((int)time(0) + seed);
+  // srand((int)time(0) + seed);
   int r = (rand() % 5);
 
   switch (r)

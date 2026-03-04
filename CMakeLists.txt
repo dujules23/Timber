@@ -6,7 +6,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(SFML 3 REQUIRED COMPONENTS Graphics Window System)
 
-add_executable(timber src/timber.cpp)
+add_executable(timber MACOSX_BUNDLE src/timber.cpp)
 
 target_link_libraries(timber PRIVATE SFML::Graphics SFML::Window SFML::System)
 

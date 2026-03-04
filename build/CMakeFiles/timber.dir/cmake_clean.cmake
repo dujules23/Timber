@@ -1,7 +1,7 @@
 file(REMOVE_RECURSE
   "CMakeFiles/timber.dir/src/timber.cpp.o"
   "CMakeFiles/timber.dir/src/timber.cpp.o.d"
-  "timber"
+  "timber.app/Contents/MacOS/timber"
   "timber.pdb"
 )
 
