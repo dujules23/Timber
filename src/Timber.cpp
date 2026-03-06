@@ -11,27 +11,29 @@ using namespace sf;
 void updateBranches(int seed);
 void initBranchSprites();
 void syncBranchSprites();
+side branchPositions[NUM_BRANCHES];
 
-const int NUM_BRANCHES = 6;
+ const int NUM_BRANCHES = 6;
 std::vector<sf::Sprite> branches;
 sf::Texture textureBranch;
+
 
 // Where is th player/branch?
 // Left or Right
 
 enum class side { LEFT, RIGHT, NONE };
-side branchPositions[NUM_BRANCHES];
+
 
  // Helper function to load a texture from a file and handle errors
 
-//  Texture loadTexture(const std::string& path) {
-//     Texture texture;
-//     if (!texture.loadFromFile(path)) {
-//         std::cerr << "ERROR: Could not load texture: " << path << "\n";
-//         exit(EXIT_FAILURE);
-//     }
-//     return texture;
-//   }
+ Texture loadTexture(const std::string& path) {
+    Texture texture;
+    if (!texture.loadFromFile(path)) {
+        std::cerr << "ERROR: Could not load texture: " << path << "\n";
+        exit(EXIT_FAILURE);
+    }
+    return texture;
+  }
 
 bool loadTexture(Texture& texture, const std::string& path)
 {
@@ -46,7 +48,9 @@ bool loadTexture(Texture& texture, const std::string& path)
 
 int main()
 {
-
+  
+ 
+  
   srand(static_cast<unsigned>(time(nullptr)));
   
   // create a video mode object (SFML 3 uses a Vector2u constructor)
